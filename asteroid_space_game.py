@@ -45,7 +45,7 @@ explosion_sound = pygame.mixer.Sound('explosion.ogg')
 explosion_sound.set_volume(10)
 
 #background music
-pygame.mixer.music.load('The_Drum.mp3')  #game.ogg
+pygame.mixer.music.load('game.ogg')  #game.ogg
 pygame.mixer.music.set_volume(0.3)
 pygame.mixer.music.play()
 
