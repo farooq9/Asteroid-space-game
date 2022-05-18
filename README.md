@@ -9,6 +9,6 @@ How to play!
  4) Left arrow : rotate the ship to the Left
  5) Space bar : shoot the asteroids
  6) Left Ctrl : move the ship forward with extreme speed.
- 7) q - to close the window
+ 7) q : to close the window
 
 Note: save all the files in a same folder.
