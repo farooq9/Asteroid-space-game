@@ -1,3 +1,5 @@
+from re import T
+from tkinter import Canvas
 import pygame, sys, os, random, math
 from pygame.locals import *
 
@@ -5,7 +7,7 @@ from pygame.locals import *
 pygame.mixer.pre_init()
 pygame.init()
 
-#init game
+#init game 
 pygame.init()
 fps = pygame.time.Clock()
 
@@ -45,7 +47,7 @@ explosion_sound = pygame.mixer.Sound('explosion.ogg')
 explosion_sound.set_volume(10)
 
 #background music
-pygame.mixer.music.load('game.ogg')  #game.ogg
+pygame.mixer.music.load('The_Drum.mp3')  #game.ogg
 pygame.mixer.music.set_volume(0.3)
 pygame.mixer.music.play()
 
@@ -71,6 +73,7 @@ no_of_bullets = 0
 
 score = 0
 game_over = False
+playing = True  #pause button
 
 for i in range(0, no_of_asteroids):
     asteroid_x.append( random.randint(0, WIDTH))
@@ -123,14 +126,31 @@ def draw(canvas):
         myfont3 = pygame.font.SysFont('Comic Sans MS', 40)
         label13 = myfont3.render('Total Score: '+ str(score), 1, (250, 0, 0))
         canvas.blit(label13, (520, 348))
+
+        label17 = myfont3.render('R : Restart', 1, (250, 0, 0))
+        label117 = myfont3.render('Q : Quit', 1, (250, 0, 0))
+        canvas.blit(label17, (522, 388))
+        canvas.blit(label117, (514, 426))
         pygame.mixer.music.stop()
+    
+    if playing == False:
+        myfont4 = pygame.font.SysFont("Comic Sans MS", 80)
+        label4 = myfont4.render("GAME PAUSED", 1, (112, 209, 240))
+        canvas.blit(label4, (WIDTH/2 - 290,HEIGHT/2 - 90))
+
+        myfont5 = pygame.font.SysFont("Comic Sans MS", 40)
+        label5 = myfont5.render('P : Resume', 1, (112, 209, 240))    
+        canvas.blit(label5, (WIDTH/2 -260,HEIGHT/2 - 0))
+        label100 = myfont5.render('Q : Quit', 1, (112, 209, 204))
+        canvas.blit(label100, (WIDTH/2 -269,HEIGHT/2 + 50))  #height/2 - -50
+        
 
 #handle input function
 def handle_input():
     global ship_angle, ship_is_rotating, ship_direction
     global ship_x, ship_y, ship_speed, ship_is_forward
     global bullet_x, bullet_y, bullet_angle, no_of_bullets
-    global missile_sound, thruster_sound
+    global missile_sound, thruster_sound, playing, score, game_over
 
     for event in pygame.event.get():
         if event.type == QUIT:
@@ -160,6 +180,27 @@ def handle_input():
                 ship_is_forward = True
                 ship_speed = 20                
                 thruster_sound.play()
+            elif event.key == K_p:
+                if playing == True:
+                    playing = False
+                    pygame.mixer.music.stop()
+                    # ship_is_forward = False
+                    ship_speed = 0
+                    # K_UP = False
+                # elif event.key == K_r:
+                #     playing = True
+                    # score = 0
+                    # pygame.mixer.music.play()
+                else:
+                    playing = True
+                    pygame.mixer.music.play()
+            elif game_over == True:
+                if event.key == K_r:
+                    game_over = False
+                    score = 0
+                    pygame.mixer.music.play()
+                elif event.key == K_q:
+                    sys.exit()
             elif event.key == K_q:
                 sys.exit()
 
@@ -240,7 +281,12 @@ def game_logic():
 #asteroids game loop
 while True:
     draw(window)
+    # if playing:
     handle_input()
+    # else:
+        # print('Game paused1')
+    update_screen()
     if not game_over:
-        game_logic()
+        if playing:
+            game_logic()
     update_screen()
