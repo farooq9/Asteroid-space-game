@@ -1,6 +1,4 @@
-from re import T
-from tkinter import Canvas
-import pygame, sys, os, random, math
+import pygame, sys, random, math
 from pygame.locals import *
 
 #sounds
@@ -28,6 +26,9 @@ pygame.display.set_caption('Asteroids (Space Game)')
 
 #load images
 bg = pygame.image.load('bg.jpg')
+# bg1 = pygame.image.load('bgp.jpg')
+
+
 debris = pygame.image.load('debris2_brown.png')
 ship = pygame.image.load('ship.png')
 ship_thrusted = pygame.image.load('ship_thrusted.png')
@@ -63,7 +64,7 @@ ship_speed = 0
 asteroid_x = [] #random.randint(0, WIDTH)
 asteroid_y = [] #random.randint(0, HEIGHT)
 asteroid_angle = []
-asteroid_speed = 2 # we can add random speed for the asteroids as asteroid angle
+asteroid_speed = 2 # we can add random speed for the asteroids as asteroid angle 
 no_of_asteroids = 10
 
 bullet_x = []
@@ -83,7 +84,6 @@ for i in range(0, no_of_asteroids):
 
 #rotate ship image
 def rot_center(image, angle):
-
     orig_rect = image.get_rect()
     rot_image = pygame.transform.rotate(image, angle)
     rot_rect = orig_rect.copy()
@@ -98,8 +98,7 @@ def draw(canvas):
     canvas.fill(BLACK)
     canvas.blit(bg,(0,0))
     canvas.blit(debris,(time*.3,0))
-    canvas.blit(debris,(time*.3-WIDTH,0))
-    
+    canvas.blit(debris,(time*.3-WIDTH,0))    
     time = time + 1
 
     for i in range(0, no_of_bullets):
@@ -117,6 +116,10 @@ def draw(canvas):
     myfont1 = pygame.font.SysFont("Comic Sans MS", 40)
     label1 = myfont1.render("Score : "+str(score), 1, (255, 255, 0))
     canvas.blit(label1, (50, 20))
+
+    #pause button
+    pause_button = myfont1.render('P : Pause', 1, (255, 255, 0))
+    canvas.blit(pause_button, (1130, 20))
 
     if game_over:
         myfont2 = pygame.font.SysFont("Comic Sans MS", 80)
@@ -141,7 +144,7 @@ def draw(canvas):
         myfont5 = pygame.font.SysFont("Comic Sans MS", 40)
         label5 = myfont5.render('P : Resume', 1, (112, 209, 240))    
         canvas.blit(label5, (WIDTH/2 -260,HEIGHT/2 - 0))
-        label100 = myfont5.render('Q : Quit', 1, (112, 209, 204))
+        label100 = myfont5.render('Q : Quit', 1, (112, 209, 240))
         canvas.blit(label100, (WIDTH/2 -269,HEIGHT/2 + 50))  #height/2 - -50
         
 
@@ -157,40 +160,37 @@ def handle_input():
             pygame.quit()
             sys.exit()
         elif event.type == KEYDOWN:   
-            if event.key == K_LEFT:
+            # if game_over == False or playing == False:
+            if event.key == K_LEFT and game_over == False and playing == True:
                 ship_is_rotating = True
                 ship_direction = 1
-            elif event.key == K_RIGHT:
+            elif event.key == K_RIGHT and game_over == False and playing == True:
                 ship_is_rotating = True
                 ship_direction = 0
-            elif event.key == K_UP:
+            elif event.key == K_UP and game_over == False and playing == True:
                 ship_is_forward = True
                 ship_speed = 10
-                thruster_sound.play()                    
+                thruster_sound.play()
+
             elif event.key == K_DOWN:
                 ship_is_forward = False
                 ship_speed = 0
-            elif event.key == K_SPACE:
+            elif event.key == K_SPACE and game_over == False and playing == True:
                 bullet_x.append( ship_x + 50 )
                 bullet_y.append( ship_y + 50 )
                 bullet_angle.append( ship_angle )
                 no_of_bullets = no_of_bullets + 1
                 missile_sound.play()
-            elif event.key == K_LCTRL:
+            elif event.key == K_LCTRL and game_over == False and playing == True:
                 ship_is_forward = True
                 ship_speed = 20                
                 thruster_sound.play()
-            elif event.key == K_p:
+            elif event.key == K_p and game_over == False:
                 if playing == True:
                     playing = False
                     pygame.mixer.music.stop()
                     # ship_is_forward = False
                     ship_speed = 0
-                    # K_UP = False
-                # elif event.key == K_r:
-                #     playing = True
-                    # score = 0
-                    # pygame.mixer.music.play()
                 else:
                     playing = True
                     pygame.mixer.music.play()
@@ -210,9 +210,8 @@ def handle_input():
             else:
                 ship_is_forward = False
                 thruster_sound.stop()
-            if event.key == K_SPACE:  #my code to run ship continuesly even after pressing space
-                ship_is_forward = True
-            
+            if event.key == K_SPACE and game_over == False and playing == True:  #my code to run ship continuesly even after pressing space
+                ship_is_forward = True    
 
     if ship_is_rotating:
         if ship_direction == 0:
@@ -225,7 +224,6 @@ def handle_input():
         ship_y = (ship_y + -math.sin(math.radians(ship_angle))*ship_speed )
         if ship_is_forward == False:
             ship_speed = ship_speed - 0.1 #0.5
-
 
 
 #update screen
@@ -281,10 +279,7 @@ def game_logic():
 #asteroids game loop
 while True:
     draw(window)
-    # if playing:
     handle_input()
-    # else:
-        # print('Game paused1')
     update_screen()
     if not game_over:
         if playing:
