@@ -118,8 +118,9 @@ def draw(canvas):
     canvas.blit(label1, (50, 20))
 
     #pause button
-    pause_button = myfont1.render('P : Pause', 1, (255, 255, 0))
-    canvas.blit(pause_button, (1130, 20))
+    if game_over == False and playing == True:
+        pause_button = myfont1.render('P : Pause', 1, (255, 255, 0))
+        canvas.blit(pause_button, (1130, 20))
 
     if game_over:
         myfont2 = pygame.font.SysFont("Comic Sans MS", 80)
