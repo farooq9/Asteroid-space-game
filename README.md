@@ -18,3 +18,5 @@ Note: save all the files in a same folder.
 
 
 ![gamescreen](https://user-images.githubusercontent.com/88651754/170445905-f8a6600d-2954-46ee-959f-f9ec8c0d97b1.png)
+
+![gameover](https://user-images.githubusercontent.com/88651754/170446267-17b3e77f-ec88-48bc-aa0c-0c84ebe3a7f1.png)
