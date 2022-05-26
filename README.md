@@ -15,3 +15,6 @@ How to play!
  9) r : restart when GAME OVER
 
 Note: save all the files in a same folder.
+
+
+![gamescreen](https://user-images.githubusercontent.com/88651754/170445905-f8a6600d-2954-46ee-959f-f9ec8c0d97b1.png)
