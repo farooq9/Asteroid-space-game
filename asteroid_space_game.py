@@ -50,7 +50,7 @@ explosion_sound.set_volume(10)
 #background music
 pygame.mixer.music.load('game.ogg')  #game.ogg
 pygame.mixer.music.set_volume(0.3)
-pygame.mixer.music.play()
+pygame.mixer.music.play(-1)
 
 #All variables
 ship_x = WIDTH/2 -50
